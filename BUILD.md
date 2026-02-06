@@ -22,3 +22,12 @@ Linux
     pip install -r requirements.txt
     flask run
 ```
+
+
+Docker
+```
+    sudo apt install docker.io
+    sudo systemctl start docker && sudo systemctl enable docker
+    sudo docker build -t biblioteka .
+    sudo docker run -p 12345:12345 biblioteka
+```
