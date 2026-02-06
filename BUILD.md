@@ -31,3 +31,10 @@ Docker
     sudo docker build -t biblioteka .
     sudo docker run -p 12345:12345 biblioteka
 ```
+
+
+Docker-compose
+```
+    sudo apt install python3-setuptools docker-compose
+    sudo docker-compose up
+```
