@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru-RU">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Библиотека</title>
+  <style>
+    button {
+      padding: 10px;
+      font-weight: bold;
+      border: none;
+      background-color: rgb(0, 128, 255);
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: rgba(0, 128, 255, 0.8);
+    }
+    .b-grey {
+      background-color: rgb(128, 128, 128);
+    }
+    .b-grey:hover {
+      background-color: rgba(128, 128, 128, 0.8);
+    }
+    form {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    input {
+      width: 250px;
+      height: 30px;
+      margin-bottom: 10px;
+      border: 1px solid rgb(128, 128, 128);
+      outline: none;
+      color: rgb(128, 128, 128);
+    }
+    h1 {
+      color: rgb(128, 128, 128);
+      text-align: center;
+    }
+    p {
+      color: rgb(128, 128, 128);
+    }
+    span {
+      color: rgb(0, 128, 255);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><span>🕮</span> Библиотека</h1>
+  </header>
+                                                                                {% with messages = get_flashed_messages(with_categories=true) %}
+                                                                                {% if messages %}
+                                                                                {% for category, message in messages %}
+                                                                                <p>{{ message }}</p>
+                                                                                {% endfor %}
+                                                                                {% endif %}
+                                                                                {% endwith %}
+  <main>
+    <form action="{{ url_for('login') }}" method="post">
+      <input type="text" id="login" name="login" placeholder="Логин" required>
+      <br>
+      <input type="password" id="password" name="password" placeholder="Пароль" required>
+      <br>
+      <button type="submit">Войти</button>
+      <a href="{{ url_for('usage') }}"><button type="button" class="b-grey">Продолжить без входа</button></a>
+    </form>
+  </main>
+</body>
+</html>

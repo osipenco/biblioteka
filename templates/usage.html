@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru-RU">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Библиотека - использование</title>
+  <style>
+    button {
+      padding: 10px;
+      font-weight: bold;
+      border: none;
+      background-color: rgb(0, 128, 255);
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: rgba(0, 128, 255, 0.8);
+    }
+    select {
+      width: 255px;
+      height: 35px;
+      background: none;
+      border: 1px solid rgb(128, 128, 128);
+      outline: none;
+      color: rgb(128, 128, 128);
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      color: rgb(128, 128, 128);
+    }
+    th {
+      border: 1px solid rgb(128, 128, 128);
+      padding: 10px;
+    }
+    td {
+      text-align: center;
+      border: 1px solid rgb(128, 128, 128);
+    }
+    p {
+      position: fixed;
+      top: 200px;
+      left: 0;
+      color: rgb(128, 128, 128);
+    }
+    table thead th:nth-child(n+7), table tbody td:nth-child(n+7) {
+      @media (max-width: 1280px) {
+        display: none;
+      }
+    }
+    table thead th:nth-child(n+6), table tbody td:nth-child(n+6) {
+      @media (max-width: 980px) {
+        display: none;
+      }
+    }
+    table thead th:nth-child(n+2), table tbody td:nth-child(n+2) {
+      @media (max-width: 480px) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <form action="{{ url_for('usage') }}" method="post">
+      <select id="title" name="title" required>
+        <option value="" selected disabled>-- Название книги --</option>
+                                                                                                       {% for book in books %}
+                                                                                                       <option value="{{ book['title'] }}">{{ book['title'] }}</option>
+                                                                                                       {% endfor %}
+      </select>
+      <br>
+      <br>
+      <select id="branch" name="branch" required>
+        <option value="" selected disabled>-- Филиал --</option>
+                                                                                                       {% for branch in branches %}
+                                                                                                       <option value="{{ branch['name'] }}">{{ branch['name'] }}</option>
+                                                                                                       {% endfor %}
+      </select>
+      <br>
+      <br>
+      <button type="submit" name="action" value="count_copies">Узнать кол-во экземпляров</button>
+      <br>
+      <br>
+      <button type="submit" name="action" value="count_faculties">Узнать кол-во факультетов</button>
+      <br>
+      <br>
+      <br>
+      <br>
+    </form>
+                                                                                                       {% with messages = get_flashed_messages(with_categories=true) %}
+                                                                                                       {% if messages %}
+                                                                                                       {% for category, message in messages %}
+                                                                                                       <p>{{ message }}</p>
+                                                                                                       {% endfor %}
+                                                                                                       {% endif %}
+                                                                                                       {% endwith %}
+    <table>
+      <thead>
+        <tr>
+          <th>Название книги</th>
+          <th>Автор</th>
+          <th>Издательство</th>
+          <th>Филиал</th>
+          <th>Факультет</th>
+          <th>Год издания</th>
+          <th>Кол-во страниц</th>
+          <th>Кол-во иллюстраций</th>
+          <th>Стоимость</th>
+        </tr>
+      </thead>
+      <tbody>
+                                                                                                      {% for book in all_books_data %}
+                                                                                                      <tr>
+                                                                                                      <td>{{ book['title'] }}</td>
+                                                                                                      <td>{{ book['author'] }}</td>
+                                                                                                      <td>{{ book['publisher'] }}</td>
+                                                                                                      <td>{{ book['branches'] }}</td>
+                                                                                                      <td>{{ book['faculties'] }}</td>
+                                                                                                      <td>{{ book['publication_year'] }}</td>
+                                                                                                      <td>{{ book['page_count'] }}</td>
+                                                                                                      <td>{{ book['illustration_count'] }}</td>
+                                                                                                      <td>{{ book['price'] }}</td>
+                                                                                                      </tr>
+                                                                                                      {% endfor %}
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

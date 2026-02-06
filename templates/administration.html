@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ru-RU">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Библиотека - администрирование</title>
+  <style>
+    button {
+      padding: 10px;
+      font-weight: bold;
+      border: none;
+      background-color: rgb(0, 128, 255);
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: rgba(0, 128, 255, 0.8);
+    }
+    .b-grey {
+      background-color: rgb(128, 128, 128);
+    }
+    .b-grey:hover {
+      background-color: rgba(128, 128, 128, 0.8);
+    }
+    .b-red {
+      background-color: rgb(128, 0, 0);
+    }
+    .b-red:hover {
+      background-color: rgba(128, 0, 0, 0.8);
+    }
+    select {
+      width: 255px;
+      height: 35px;
+      background: none;
+      border: 1px solid rgb(128, 128, 128);;
+      outline: none;
+      color: rgb(128, 128, 128);
+    }
+    input {
+      width: 250px;
+      height: 30px;
+      margin-bottom: 10px;
+      border: 1px solid rgb(128, 128, 128);;
+      outline: none;
+      color: rgb(128, 128, 128);
+    }
+    form {
+      text-align: right;
+    }
+    p {
+      color: rgb(128, 128, 128);
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="{{ url_for('logout') }}" style="float: right;" title="Выйти">
+      <button class="b-red" style="padding: 9px 12px">×</button>
+    </a>
+    <br>
+    <br>
+    <hr>
+    <form action="{{ url_for('administration') }}" method="post">
+      <input type="text" id="add_branch_name" name="add_branch_name" placeholder="Филиал" required>
+      <br>
+      <button type="submit">Добавить филиал</button>
+      <button type="reset" class="b-grey">Сбросить</button>
+    </form>
+    <hr>
+    <form action="{{ url_for('administration') }}" method="post">
+       <select id="update_branch_id" name="update_branch_id" required>
+          <option value="" selected disabled>-- Филиал --</option>
+                                                                                                                {% for branch in all_branches %}
+                                                                                                                <option value="{{ branch['id'] }}">{{ branch['name'] }}</option>
+                                                                                                                {% endfor %}
+        </select>
+      <br>
+      <br>
+      <input type="text" id="update_branch_name" name="update_branch_name" placeholder="Филиал" required>
+      <br>
+      <button type="submit">Изменить филиал</button>
+      <button type="reset" class="b-grey">Сбросить</button>
+    </form>
+    <hr>
+    <form action="{{ url_for('administration') }}" method="post">
+      <input type="text" id="add_book_title" name="add_book_title" placeholder="Название книги" required>
+      <br>
+      <input type="text" id="add_book_author" name="add_book_author" placeholder="Автор" required>
+      <br>
+      <input type="text" id="add_book_publisher" name="add_book_publisher" placeholder="Издательство">
+      <br>
+      <input type="number" id="add_book_year" name="add_book_year" placeholder="Год издания">
+      <br>
+      <input type="number" id="add_book_pages" name="add_book_pages" placeholder="Кол-во страниц">
+      <br>
+      <input type="number" id="add_book_illus" name="add_book_illus" placeholder="Кол-во иллюстраций">
+      <br>
+      <input type="number" step="0.01" id="add_book_price" name="add_book_price" placeholder="Стоимость">
+      <br>
+      <select id="add_book_branch" name="add_book_branch" required>
+        <option value="" selected disabled>-- Филиал --</option>
+                                                                                                                {% for branch in branches %}
+                                                                                                                <option value="{{ branch['id'] }}">{{ branch['name'] }}</option>
+                                                                                                                {% endfor %}
+      </select>
+      <br>
+      <br>
+      <input type="text" id="add_book_faculty" name="add_book_faculty" placeholder="Факультет" required>
+      <br>
+      <button type="submit">Добавить книгу</button>
+      <button type="reset" class="b-grey">Сбросить</button>
+    </form>
+    <hr>
+    <form action="{{ url_for('administration') }}" method="post">
+      <select id="edit_book_id" name="update_book_id">
+        <option value="" selected disabled>-- Книга --</option>
+                                                                                                                {% for book in books %}
+                                                                                                                <option value="{{ book['id'] }}" {% if book_to_edit and book_to_edit['id'] == book['id'] %}selected{% endif %}>{{ book['title'] }}</option>
+                                                                                                                {% endfor %}
+      </select>
+      <br>
+      <br>
+      <input type="hidden" name="update_book_id" value="{{ book_to_edit['id'] }}">
+      <input type="text" id="update_book_title" name="update_book_title" placeholder="Название книги" value="{{ book_to_edit['title'] }}" required>
+      <br>
+      <input type="text" id="update_book_author" name="update_book_author" placeholder="Автор" value="{{ book_to_edit['author'] }}" required>
+      <br>
+      <input type="text" id="update_book_publisher" name="update_book_publisher" placeholder="Издательство" value="{{ book_to_edit['publisher'] }}">
+      <br>
+      <input type="number" id="update_book_year" name="update_book_year" placeholder="Год издания" value="{{ book_to_edit['publication_year'] }}">
+      <br>
+      <input type="number" id="update_book_pages" name="update_book_pages" placeholder="Кол-во страниц" value="{{ book_to_edit['page_count'] }}">
+      <br>
+      <input type="number" id="update_book_illus" name="update_book_illus" placeholder="Кол-во иллюстраций" value="{{ book_to_edit['illustration_count'] }}">
+      <br>
+      <input type="number" step="0.01" id="update_book_price" name="update_book_price" placeholder="Стоимость" value="{{ book_to_edit['price'] }}">
+      <br>
+      <button type="submit">Изменить книгу</button>
+      <button type="reset" class="b-grey">Сбросить</button>
+    </form>
+    <hr>
+                                                                                                                {% with messages = get_flashed_messages(with_categories=true) %}
+                                                                                                                {% if messages %}
+                                                                                                                {% for category, message in messages %}
+                                                                                                                <p>{{ message }}</p>
+                                                                                                                {% endfor %}
+                                                                                                                {% endif %}
+                                                                                                                {% endwith %}
+  </main>
+</body>
+</html>
